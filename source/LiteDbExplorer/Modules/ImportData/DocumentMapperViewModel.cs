@@ -70,7 +70,7 @@ namespace LiteDbExplorer.Modules.ImportData
 
         public void Init(IEnumerable<string> sourceFields, CollectionReference targetCollection)
         {
-            _sourceFields = sourceFields?.ToHashSet() ?? new HashSet<string>();
+            _sourceFields = sourceFields != null ? Core.EnumerableExtensions.ToHashSet(sourceFields) : new HashSet<string>();
 
             if (targetCollection != null)
             {
@@ -82,7 +82,7 @@ namespace LiteDbExplorer.Modules.ImportData
                     // .Where(p => ValidBsonTypes.Contains(p.Value))
                     .ToDictionary(p => p.Key, p => p.Value);
 
-                _targetFields = _targetFieldsWithTypes.Select(p => p.Key).ToHashSet();
+                _targetFields = Core.EnumerableExtensions.ToHashSet(_targetFieldsWithTypes.Select(p => p.Key));
             }
             else
             {
