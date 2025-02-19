@@ -12,8 +12,10 @@ using ICSharpCode.AvalonEdit.Rendering;
 using LiteDbExplorer.Controls.Editor;
 using LiteDbExplorer.Controls.JsonViewer;
 using LiteDbExplorer.Core;
+using Newtonsoft.Json;
 using LiteDbExplorer.Presentation;
 using LiteDbExplorer.Wpf.Modules.AvalonEdit;
+using Newtonsoft.Json.Linq;
 
 namespace LiteDbExplorer.Controls
 {
@@ -142,7 +144,8 @@ namespace LiteDbExplorer.Controls
         {
             ThreadPool.QueueUserWorkItem(o => {
                 var content = provider.Serialize(true);
-                
+                content = JToken.Parse(content).ToString(Formatting.Indented);
+
                 Dispatcher.BeginInvoke((Action) (() =>
                 {
                     jsonEditor.Document.Text = content;
